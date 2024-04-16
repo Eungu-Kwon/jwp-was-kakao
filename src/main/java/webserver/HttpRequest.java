@@ -13,6 +13,7 @@ import webserver.constants.HttpMethods;
 
 public class HttpRequest {
     private final Header header;
+    private final HttpCookie cookie;
     private final RequestLine requestLine;
     private final Body body;
     private final Map<String, String> form;
@@ -20,6 +21,7 @@ public class HttpRequest {
     public HttpRequest(String requestLine, Map<String, String> header, String body) {
         this.requestLine = new RequestLine(requestLine);
         this.header = new Header(header);
+        this.cookie = new HttpCookie(header.get("Cookie"));
         this.body = new Body(body);
         this.form = parseForm();
     }

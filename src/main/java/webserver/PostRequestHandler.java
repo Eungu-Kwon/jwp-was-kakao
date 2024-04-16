@@ -17,13 +17,32 @@ public class PostRequestHandler implements MethodRequestHandler {
     @Override
     public Optional<HttpResponse> handle(HttpRequest httpRequest) throws IOException {
         if (httpRequest.getPath().equals("/user/create")) {
-            createUser(httpRequest.getForm());
-            HttpResponse httpResponse = new HttpResponse(HttpStatus.REDIRECT,
-                Map.of(HttpHeaders.LOCATION, "/index.html"), null);
-            return Optional.of(httpResponse);
+            return createAccount(httpRequest);
+        }
+
+        if (httpRequest.getPath().equals("/user/login")) {
+            return login(httpRequest.getForm());
         }
 
         return Optional.empty();
+    }
+
+    private static Optional<HttpResponse> createAccount(HttpRequest httpRequest) {
+        createUser(httpRequest.getForm());
+        HttpResponse httpResponse = new HttpResponse(HttpStatus.REDIRECT,
+            Map.of(HttpHeaders.LOCATION, "/index.html"), null);
+        return Optional.of(httpResponse);
+    }
+
+    private Optional<HttpResponse> login(Map<String, String> query) {
+        User user = DataBase.findUserById(query.get("userId"));
+        if (user == null || !user.getPassword().equals(query.get("password"))) {
+            return Optional.of(new HttpResponse(HttpStatus.REDIRECT, Map.of(HttpHeaders.LOCATION, "/user/login_failed.html"), null));
+        }
+        logger.debug("User Login : {}", query.get("userId"));
+        HttpResponse httpResponse = new HttpResponse(HttpStatus.REDIRECT, Map.of(HttpHeaders.LOCATION, "/index.html"), null);
+        httpResponse.setCookie();
+        return Optional.of(httpResponse);
     }
 
     private static void createUser(Map<String, String> querys) {

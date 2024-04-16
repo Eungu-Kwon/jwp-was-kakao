@@ -38,4 +38,9 @@ public class HttpResponse {
     public byte[] getBody() {
         return body;
     }
+
+    public void setCookie() {
+        HttpCookie cookie = new HttpCookie();
+        headers.addHeader("Set-Cookie", cookie.toString());
+    }
 }
