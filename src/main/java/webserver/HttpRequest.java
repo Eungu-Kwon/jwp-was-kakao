@@ -47,8 +47,8 @@ public class HttpRequest {
         return requestLine.getMethod();
     }
 
-    private Map<String, String> parseForm() {
-        return body == null ? new HashMap<>() : parseKeyValuePairs(body.getBody());
+    public String getSessionID() {
+        return cookie.getCookies().getOrDefault("JSESSIONID", "");
     }
 
     public static Map<String, String> parseKeyValuePairs(String input) {
@@ -63,6 +63,10 @@ public class HttpRequest {
             addKeyValuePairIfValid(keyValue, map);
         }
         return map;
+    }
+
+    private Map<String, String> parseForm() {
+        return body == null ? new HashMap<>() : parseKeyValuePairs(body.getBody());
     }
 
     private static String decodeUrl(String s) {

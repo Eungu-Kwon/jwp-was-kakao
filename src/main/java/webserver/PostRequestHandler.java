@@ -43,7 +43,11 @@ public class PostRequestHandler implements MethodRequestHandler {
         }
         logger.debug("User Login : {}", query.get("userId"));
         HttpResponse httpResponse = new HttpResponse(HttpStatus.REDIRECT, Map.of(HttpHeaders.LOCATION, "/index.html"), null);
-        httpResponse.setCookie("JSESSIONID=" + UUID.randomUUID().toString() + ";logined=true");
+        String sessionId = UUID.randomUUID().toString();
+        Session session = new Session(sessionId);
+        session.setAttribute("user", user);
+        httpResponse.setCookie("JSESSIONID=" + sessionId + ";logined=true");
+        SessionManager.add(session);
         return Optional.of(httpResponse);
     }
 

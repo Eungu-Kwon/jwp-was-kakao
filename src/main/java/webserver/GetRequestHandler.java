@@ -29,7 +29,7 @@ public class GetRequestHandler implements MethodRequestHandler {
 
     @Override
     public Optional<HttpResponse> handle(HttpRequest httpRequest) throws IOException {
-        Optional<HttpResponse> response = responseResources(httpRequest.getPath());
+        Optional<HttpResponse> response = responseResources(httpRequest);
         if (response.isPresent()) {
             return response;
         }
@@ -41,12 +41,16 @@ public class GetRequestHandler implements MethodRequestHandler {
         return Optional.empty();
     }
 
-    private Optional<HttpResponse> responseResources(String path) throws IOException {
+    private Optional<HttpResponse> responseResources(HttpRequest request) throws IOException {
+        String path = request.getPath();
         if (path.equals("/")) {
             path = "/index.html";
         }
         if (path.startsWith("/user/list")) {
             return responseDynamicResource(path);
+        }
+        if (path.startsWith("/user/login") && !request.getSessionID().isEmpty()) {
+            return Optional.of(new HttpResponse(HttpStatus.REDIRECT, Map.of(HttpHeaders.LOCATION, "/index.html"), null));
         }
         File file = new File(
             "./src/main/resources" + (path.endsWith(".html") || path.endsWith("favicon.ico")
