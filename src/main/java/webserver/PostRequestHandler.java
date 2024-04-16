@@ -7,8 +7,8 @@ import java.util.Optional;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.http.HttpHeaders;
-import webserver.http.HttpStatus;
+import webserver.constants.HttpHeaders;
+import webserver.constants.HttpStatus;
 
 public class PostRequestHandler implements MethodRequestHandler {
 

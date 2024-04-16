@@ -1,4 +1,4 @@
-package webserver.http;
+package webserver.constants;
 
 public class HttpHeaders {
 

@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.http.HttpHeaders;
-import webserver.http.HttpStatus;
+import webserver.constants.HttpHeaders;
+import webserver.constants.HttpStatus;
 
 public class GetRequestHandler implements MethodRequestHandler {
 
