@@ -1,5 +1,6 @@
 package webserver;
 
+import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -56,11 +57,16 @@ public class HttpRequest {
         for (String token : tokens) {
             List<String> keyValue = Arrays.stream(token.split("=", 2))
                 .map(String::trim)
+                .map(HttpRequest::decodeUrl)
                 .collect(Collectors.toList());
 
             addKeyValuePairIfValid(keyValue, map);
         }
         return map;
+    }
+
+    private static String decodeUrl(String s) {
+        return URLDecoder.decode(s, java.nio.charset.StandardCharsets.UTF_8);
     }
 
     private static void addKeyValuePairIfValid(List<String> keyValue, Map<String, String> map) {
