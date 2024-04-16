@@ -11,6 +11,9 @@ public class Header {
 	}
 
 	public String toString() {
+		if (headers == null) {
+			return "";
+		}
 		StringBuilder sb = new StringBuilder();
 		headers.forEach((key, value) -> {
 			sb.append(key).append(": ").append(value).append("\r\n");
