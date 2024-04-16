@@ -4,6 +4,8 @@ import db.DataBase;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,7 @@ public class PostRequestHandler implements MethodRequestHandler {
         }
         logger.debug("User Login : {}", query.get("userId"));
         HttpResponse httpResponse = new HttpResponse(HttpStatus.REDIRECT, Map.of(HttpHeaders.LOCATION, "/index.html"), null);
-        httpResponse.setCookie();
+        httpResponse.setCookie("JSESSIONID=" + UUID.randomUUID().toString() + ";logined=true");
         return Optional.of(httpResponse);
     }
 
