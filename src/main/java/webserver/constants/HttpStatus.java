@@ -9,7 +9,6 @@ public enum HttpStatus {
     NOT_FOUND("404", "Not Found"),
     INTERNAL_SERVER_ERROR("500", "Internal Server Error"),
     SERVICE_UNAVAILABLE("503", "Service Unavailable"),
-    NULL("null", "null"),
     UNAUTHORIZED("401", "Unauthorized");
 
     public final String code;

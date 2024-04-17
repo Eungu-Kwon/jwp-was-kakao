@@ -2,43 +2,25 @@ package webserver;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class HttpCookie {
-	private Map<String, String> cookies;
+	String value;
 
-	public HttpCookie() {
-		this.cookies = new HashMap<>();
+	Map<String, String> attributes = new HashMap<>();
+
+	public HttpCookie(String value) {
+		this.value = value;
 	}
 
-	public HttpCookie(String cookie) {
-		cookies = new HashMap<>();
-		if (cookie == null) {
-			return;
-		}
-		String[] cookieArray = cookie.split(";");
-		for (String c : cookieArray) {
-			addCookie(c);
-		}
+	public void setAttributes(String key, String value) {
+		attributes.put(key, value);
 	}
 
-	void addCookie(String cookieLine) {
-		String[] cookieArray = cookieLine.trim().split("=");
-		if (cookieArray.length == 2) {
-			cookies.put(cookieArray[0], cookieArray[1]);
-		}
+	public String getValue() {
+		return value;
 	}
 
-	public Map<String, String> getCookies() {
-		return cookies;
-	}
-
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		cookies.forEach((key, value) -> {
-			sb.append(key).append("=").append(value).append("; ");
-		});
-		sb.append("Path=/");
-		return sb.toString();
+	public Map<String, String> getAttributes() {
+		return attributes;
 	}
 }

@@ -24,7 +24,7 @@ public class HttpResponse {
     }
 
     public void setCookie(String cookieLine) {
-        headers.setCookie(new HttpCookie(cookieLine));
+        headers.setCookie(cookieLine);
     }
 
     public String getCode() {

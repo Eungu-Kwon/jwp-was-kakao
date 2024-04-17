@@ -46,7 +46,8 @@ public class PostRequestHandler implements MethodRequestHandler {
         String sessionId = UUID.randomUUID().toString();
         Session session = new Session(sessionId);
         session.setAttribute("user", user);
-        httpResponse.setCookie("JSESSIONID=" + sessionId + ";logined=true");
+        httpResponse.setCookie("JSESSIONID=" + sessionId);
+        httpResponse.setCookie("logined=true");
         SessionManager.add(session);
         return Optional.of(httpResponse);
     }

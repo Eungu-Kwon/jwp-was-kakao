@@ -1,14 +1,14 @@
 package httpmessage;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import webserver.HttpCookie;
+import webserver.HttpCookies;
+import webserver.constants.HttpHeaders;
 
 public class Header {
 	private final Map<String, String> headers;
-	private HttpCookie cookie;
+	private HttpCookies cookies;
 
 	public Header(Map<String, String> headers) {
 		if (headers == null) {
@@ -16,11 +16,11 @@ public class Header {
 			return;
 		}
 		this.headers = new HashMap<>(headers);
-		cookie = null;
+		cookies = new HttpCookies();
 	}
 
-	public void setCookie(HttpCookie cookie) {
-		this.cookie = cookie;
+	public void setCookie(String cookieLine) {
+		cookies.addCookie(cookieLine);
 	}
 
 	public String toString() {
@@ -28,10 +28,15 @@ public class Header {
 		headers.forEach((key, value) -> {
 			sb.append(key).append(": ").append(value).append("\r\n");
 		});
-		if (cookie != null) {
-			cookie.getCookies().forEach((key, value) -> {
-				sb.append("Set-Cookie: ").append(key).append("=").append(value).append("; Path=/\r\n");
+		if (cookies != null) {
+			cookies.getCookies().forEach((key, value) -> {
+				sb.append(HttpHeaders.SET_COOKIE).append(": ").append(key).append("=").append(value.getValue());
+				value.getAttributes().forEach((k, v) -> {
+					sb.append("; ").append(k).append("=").append(v);
+				});
+				sb.append("\r\n");
 			});
+
 		}
 		return sb.toString();
 	}
